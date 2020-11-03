@@ -20,20 +20,20 @@ public class Scores {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     public String CheckLogin(@PathParam("ScoreID") Integer ScoreID) {
-        System.out.println("Invoked Scores.GetScore() with UserID " + UserID);
+        System.out.println("Invoked Scores.GetScore() with ScoreID " + ScoreID);
         try {
             PreparedStatement ps = Main.db.prepareStatement("SELECT ScoreValue FROM Scores WHERE ScoreID = ?");
             ps.setInt(1, ScoreID);
             ResultSet results = ps.executeQuery();
             JSONObject response = new JSONObject();
             if (results.next()) {
-                response.put("UserID", ScoreID);
+                response.put("ScoreId", ScoreID);
                 response.put("Score", results.getString(1));
             }
             return response.toString();
         } catch (Exception exception) {
             System.out.println("Database error: " + exception.getMessage());
-            return "{\"Error\": \"Unable to get item, this account does not yet have a score.\"}";
+            return "{\"Error\": \"Unable to get item, this score does not exist.\"}";
         }
     }
 }
