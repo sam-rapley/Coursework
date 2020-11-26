@@ -10,11 +10,34 @@ import javax.ws.rs.core.MediaType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-@Path("Users/")
+@Path("users/")
 @Consumes(MediaType.MULTIPART_FORM_DATA)
 @Produces(MediaType.APPLICATION_JSON)
 
 public class Users{
+    @GET
+    @Path("list")
+    public String UsersList() {
+        System.out.println("Invoked Users.UsersList()");
+        JSONArray response = new JSONArray();
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("SELECT UserID, UserName FROM Users");
+            ResultSet results = ps.executeQuery();
+            while (results.next()) {
+                JSONObject row = new JSONObject();
+                row.put("UserID", results.getInt(1));
+                row.put("UserName", results.getString(2));
+                response.add(row);
+                System.out.println(results.getInt(1));
+            }
+            System.out.println(response);
+            return response.toString();
+        } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+            return "{\"Error\": \"Unable to list items.  Error code xx.\"}";
+        }
+    }
+
     @POST
     @Path("create")
     public String UsersCreate(@FormDataParam("UserID") Integer UserID, @FormDataParam("UserName") String UserName, @FormDataParam("Password") String Password, @FormDataParam("Email") String Email, @FormDataParam("Validated") Boolean Validated ) {
@@ -114,3 +137,4 @@ public class Users{
     }
 
 }
+

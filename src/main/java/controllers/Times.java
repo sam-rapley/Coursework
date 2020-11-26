@@ -1,6 +1,4 @@
 package controllers;
-
-
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -14,21 +12,20 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
-public class Scores{
+public class Times {
     @GET
     @Path("list")
     public String ScoresList(){
-        System.out.println("Invoked Scores.ScoresList");
+        System.out.println("Invoked Times.TimesList");
         JSONArray response = new JSONArray();
         try{
-            PreparedStatement ps = Main.db.prepareStatement("SELECT ScoreID, UserID, ScoreValue FROM Scores WHERE ScoreID = ? ORDER BY Score DESC ");
+            PreparedStatement ps = Main.db.prepareStatement("SELECT TimeID, UserID, TimeValue FROM Times WHERE TimeID = ? ORDER BY TimeValue DESC ");
             ResultSet results = ps.executeQuery();
             while(results.next()){
                 JSONObject row = new JSONObject();
-                row.put("ScoreID", results.getInt(1));
+                row.put("TimeID", results.getInt(1));
                 row.put("UserID", results.getInt(2));
-                row.put("ScoreValue", results.getInt(3));
+                row.put("TimeValue", results.getInt(3));
                 response.add(row);
             }
             return response.toString();
@@ -39,4 +36,3 @@ public class Scores{
 
     }
 }
-
