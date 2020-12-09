@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Escape the Labyrinth</title>
+    <script src ="/Client/js/users.js"></script>
+    <style>
+        .centre{
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+        .borderthin{
+            padding: 20px 80px 20px 80px;
+            border: 1px solid black;
+        }
+        body{
+            font-family: "Arial", sans-serif;
+            font-size: large;
+        }
+        h1{
+            text-align:center;
+        }
+        h1:after {
+            content:' ';
+            display:block;
+            border:2px solid black;
+        }
+    </style>
+</head>
+<h1>
+    Options <br>
+</h1>
+<body onload = "checkAdmin()">
+<div class = "centre borderthin">
+    <form>
+        <label for = "volume">Music</label><br>
+        <input type = "range" id = "volume" name = "volume"><br>
+
+        <label for = "effects">Sound effects</label><br>
+        <input type = "range" id = "effects" name = "effects"><br><br>
+
+        <label for = "difficulty">Difficulty</label>
+        <select id = "difficulty" name = "difficulty">
+            <option value = "easy">Easy</option>
+            <option value = "medium">Medium</option>
+            <option value = "hard">Hard</option>
+        </select><br><br>
+
+        <label for = "graphics">Graphics</label>
+        <select id = "graphics" name = "graphics">
+            <option value = "low">Low</option>
+            <option value = "medium">Medium</option>
+            <option value = "high">High</option>
+        </select><br><br>
+
+        <input type = "submit">
+        <input type = "reset">
+    </form>
+</div>
+</body>
+</html>

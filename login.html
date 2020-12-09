@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Escape the Labyrinth</title>
+    <style>
+        .centre{
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+        div{
+            padding:20px;
+            border: 1px solid black;
+        }
+        .border{
+            margin:0;
+            padding:0;
+            border: 20px solid cyan;
+            background-color: #74D5DD;
+        }
+    </style>
+</head>
+<body class = "border">
+    <form class = "centre">
+        <label for = "username">Username</label>
+        <input type = "text" id = "username" name = "username"><br><br>
+        <label for = "password">Password</label>
+        <input type = "text" id = "password" name = "password"><br><br>
+        <button type = "button">login</button><br><br>
+        <button type = "button">sign up</button><br>
+    </form>
+<button type = "button" onclick ='getUsersList();'>Get users</button><br><br>
+<table id = 'usersTable'></table>
+</body>
+</html>

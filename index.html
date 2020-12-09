@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Escape the Labyrinth</title>
+    <script src="Client/js/users.js"></script>
+    <link rel="stylesheet" type="text/css" href="Client/css/styles.css">
+</head>
+<body>
+<button onclick='getUsersList();'>List users</button>
+<table id="UsersTable"></table>
+<br>
+<form id="userDetails">
+    <label for = "UserID">Enter ID</label>
+    <input type="text" id="UserID">
+</form>
+<button onclick='getUser();'>Run getUser</button>
+<div id="DisplayOneUser"></div>
+<br>
+
+<form id="InputUserDetails">
+    <label for = "UserName">Enter Username</label>
+    <input type="text" name="UserName" id = "UserName">
+    <label for = "PassWord">Enter Password</label>
+    <input type="text" name="PassWord" id = "PassWord">
+</form>
+<button onclick='addUser();'>Add a User</button>
+</body>
+</html>
