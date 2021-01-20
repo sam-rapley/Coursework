@@ -5,6 +5,7 @@ const pressedKeys = {};
 const sprite = new Image();
 let time = 0;
 let lastDir;
+let score;
 
 //fixes the width and height of the canvas to those of the window we are currently in
 function fixSize(){
@@ -20,8 +21,8 @@ function pageLoad(){
     //defines an event 'fixSize' which will resize a part of the page (the canvas)
     window.addEventListener("resize", fixSize);
     fixSize();
-    //gives sprite and sprite2 images
-    sprite.src = "Client/img/sprite.png";
+    //gives 'sprite' an image
+    sprite.src = "img/sprite.png";
     //calls the animation 'redraw' to initiate the sprite on the page
     window.requestAnimationFrame(redraw);
     //spawns an enemy
@@ -39,19 +40,19 @@ function redraw(myX, myY, whiteX, whiteY, direction){
     const canvas = document.getElementById('gameCanvas');
     const context = canvas.getContext('2d');
     //draws a 100*100 red square at the specified coordinates
-    context.drawImage(sprite, myX, myY+1, 100, 99);
+    context.drawImage(sprite, myX, myY+1, 100, 100);
     //erases in a different spot based on which direction we are moving in
     if (direction === "down"){
-        context.clearRect(whiteX, whiteY, 100, 2);
+        context.clearRect(whiteX, whiteY+1, 100, 2);
     }
     if (direction === "right"){
-        context.clearRect(whiteX, whiteY, 2, 100);
+        context.clearRect(whiteX, whiteY+1, 2, 100);
     }
     if(direction === "up"){
         context.clearRect(whiteX, whiteY+100, 100, 2);
     }
     else{
-        context.clearRect(whiteX+100, whiteY, 2, 100);
+        context.clearRect(whiteX+100, whiteY+1, 2, 100);
     }
 }
 
@@ -67,6 +68,8 @@ function shoot(direction,X,Y, movedX, movedY){
                 //used to show how far the 'bullet' has moved
                 movedX++;
                 //recursive call to continue shooting
+                registerHit(X,Y);
+                //console.log(window.enemyX,window.enemyY);
                shoot(direction, X+1, Y,movedX, movedY);
             }else{
                 //clears the path of the bullet when it reaches the edge (same points repeated for other directions, with different values for x, y, width, height)
@@ -113,7 +116,7 @@ function shoot(direction,X,Y, movedX, movedY){
             context.fill();
             if(Y>0){
                 movedY++;
-                shoot(direction, X, Y-1);
+                shoot(direction, X, Y-1,movedX,movedY);
             }else{
                 setTimeout(()=>{context.beginPath();
                 context.clearRect(X,0,100,movedY);
@@ -121,27 +124,63 @@ function shoot(direction,X,Y, movedX, movedY){
             }
         }
 }
-
+function Enemy(spawnY, X, Y, enemyHit){
+    window.enemySpawnY = spawnY;
+    window.enemyY = Y;
+    window.enemyX = X;
+    window.enemyHit = enemyHit;
+}
 function spawnEnemy(){
     const canvas = document.getElementById("gameCanvas");
     const context = canvas.getContext('2d');
-    let spawnY = Math.ceil(Math.random()*canvas.width);
-    context.drawImage(sprite, canvas.width, spawnY, 20, 20);
-    moveEnemy(spawnY, 0);
+    //generates a random position on the right edge of the screen for an enemy to spawn on
+    let initialY = Math.ceil(Math.random()*canvas.height);
+    let enemy = new Enemy(initialY, canvas.width, initialY, false);
+    console.log(canvas.height);
+    //draws the enemy sprite at its initial position
+    context.drawImage(sprite, canvas.width, enemySpawnY, 20, 20);
+    //begins to move the enemy
+    moveEnemy(enemySpawnY, 0, enemy);
 }
 
 function moveEnemy(Y,moved){
     const canvas = document.getElementById("gameCanvas");
     const context = canvas.getContext('2d');
-    if (moved === canvas.width){
-        context.clearRect(canvas.Width-moved, Y, 2, 20);
+    //removes the current enemy and spawns a new one if the previous enemy reaches the edge of the screen.
+    if (enemyHit === false){
+        if (moved === canvas.width){
+            context.clearRect(0, Y, 2, 20);
+            spawnEnemy();
+        }
+        else{
+            //console.log("moving");
+            moved++;
+            //draws the enemy sprite 1 pixel to the left of where it previously was
+            context.drawImage(sprite, canvas.width-moved, Y, 20, 20);
+            enemyX--;
+            //clears the previous position of the enemy (doesn't work at present)
+            context.clearRect((canvas.Width-moved)+2, Y, 20, 20);
+            //waits before a recursive call to move the enemy again
+            setTimeout(()=>{moveEnemy(Y,moved);},100);
+        }
     }
-    else{
-        context.clearRect(canvas.Width-moved, Y, 2, 20);
-        moved++;
-        moveEnemy(Y,moved);
-    }
+}
 
+function registerHit(shotX,shotY){
+    const canvas = document.getElementById("gameCanvas");
+    const context = canvas.getContext('2d');
+    let hit = false;
+    //while (hit===false){
+        for (i=0; i<=20;i++){
+            for (j=0; j<=20; j++){
+                if(shotX===enemyY+i&&shotY===enemyX+j){
+                    hit = true;
+                    console.log(hit);
+                    context.clearRect(enemyX, enemyY, 20,20);
+                }
+            }
+        }
+    //}
 }
 
 function frame(timeStamp) {
@@ -192,8 +231,7 @@ function frame(timeStamp) {
         if (pressedKeys["b"]) {
             let movedX = 0;
             let movedY = 0;
-            shoot(lastDir, myX, myY,movedX, movedY);
-            //console.log("shooting")
+            shoot(lastDir, myX, myY,movedX, movedY)
         }
     }
 }

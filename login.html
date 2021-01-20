@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Escape the Labyrinth</title>
+    <script src ="users.js"></script>
     <style>
         .centre{
             margin: 0;
@@ -30,10 +31,10 @@
         <input type = "text" id = "username" name = "username"><br><br>
         <label for = "password">Password</label>
         <input type = "text" id = "password" name = "password"><br><br>
-        <button type = "button">login</button><br><br>
-        <button type = "button">sign up</button><br>
+        <button type = "button" onclick = checkLogin()>login</button><br><br>
+        <button type = "button" onclick = loadSignUp()>sign up</button><br>
     </form>
-<button type = "button" onclick ='getUsersList();'>Get users</button><br><br>
+<!--<button type = "button" onclick ='getUsersList();'>Get users</button><br><br>-->
 <table id = 'usersTable'></table>
 </body>
 </html>

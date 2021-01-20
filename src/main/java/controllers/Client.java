@@ -13,49 +13,49 @@ import java.io.IOException;
  This class serves up the static HTML, CSS, JavaScript and images to the client.
  You shouldn't need to change anything unless you are adding other file types.
  ------------------------------------------------------------------------------ */
-@Path("client/")
+@Path("Client/")
 public class Client {
 
     @GET
     @Path("img/{path}")
     @Produces({"image/jpeg,image/png"})
     public byte[] getImageFile(@PathParam("path") String path) {
-        return getFile("client/img/" + path);
+        return getFile("Client/img/" + path);
     }
 
     @GET
     @Path("js/{path}")
     @Produces({"text/javascript"})
     public byte[] getJavaScriptFile(@PathParam("path") String path) {
-        return getFile("client/js/" + path);
+        return getFile("Client/" + path);
     }
 
     @GET
     @Path("lib/{path}")
     @Produces({"text/javascript"})
     public byte[] getJavaScriptLibraryFile(@PathParam("path") String path) {
-        return getFile("client/lib/" + path);
+        return getFile("Client/lib/" + path);
     }
 
     @GET
     @Path("css/{path}")
     @Produces({"text/css"})
     public byte[] getCSSFile(@PathParam("path") String path) {
-        return getFile("client/css/" + path);
+        return getFile("Client/css/" + path);
     }
 
     @GET
     @Path("{path}")
     @Produces({"text/html"})
     public byte[] getIHTMLFile(@PathParam("path") String path) {
-        return getFile("client/" + path);
+        return getFile("Client/" + path);
     }
 
     @GET
     @Path("favicon.ico")
     @Produces({"image/x-icon"})
     public byte[] getFavicon() {
-        return getFile("client/favicon.ico");
+        return getFile("Client/favicon.ico");
     }
 
     private static byte[] getFile(String filename) {

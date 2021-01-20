@@ -12,23 +12,37 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
+@Path("times/")
+@Consumes(MediaType.MULTIPART_FORM_DATA)
+@Produces(MediaType.APPLICATION_JSON)
 public class Times {
     @GET
     @Path("list")
-    public String ScoresList(){
+    //sets up the function to get a list of times - to be used for the 'times' leaderboard
+    public String TimesList(){
         System.out.println("Invoked Times.TimesList");
-        JSONArray response = new JSONArray();
+        //sets up a new array to score the times
+        JSONArray times = new JSONArray();
         try{
-            PreparedStatement ps = Main.db.prepareStatement("SELECT TimeID, UserID, TimeValue FROM Times WHERE TimeID = ? ORDER BY TimeValue DESC ");
-            ResultSet results = ps.executeQuery();
+            //sets up the sql query to get the times and other required data for the leaderboard from the database
+            PreparedStatement getTime = Main.db.prepareStatement("SELECT TimeID, UserID, TimeValue FROM Times ORDER BY TimeValue DESC ");
+            //executes the query
+            ResultSet results = getTime.executeQuery();
+            //adds the next set of data to the array while there is still data to add
             while(results.next()){
+                //sets up the variable 'row' as a JSON object to store the data
                 JSONObject row = new JSONObject();
+                //adds the current data to the current row
                 row.put("TimeID", results.getInt(1));
                 row.put("UserID", results.getInt(2));
                 row.put("TimeValue", results.getInt(3));
-                response.add(row);
+                //adds the data in the row to the response
+                times.add(row);
             }
-            return response.toString();
+            //returns the times etc.
+            return times.toString();
+            //returns that there has been an error in getting the time data
         } catch (Exception exception){
             System.out.println("Database error: " + exception.getMessage());
             return "{\"Error\": \"Unable to list items. Error code xx.\"}";

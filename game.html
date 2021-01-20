@@ -2,9 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Escape the labyrinth</title>
+    <style>
+        #gameCanvas{
+            border :1px solid black;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+    </style>
+    <script src = "game.js"></script>
+    <script src = "users.js"></script>
 </head>
-<body>
-
+<body onLoad = "pageLoad()">
+<canvas id = "gameCanvas" width="1333" height="800"></canvas>
 </body>
 </html>

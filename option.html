@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Escape the Labyrinth</title>
-    <script src ="/Client/js/users.js"></script>
+    <script src ="users.js"></script>
     <style>
         .centre{
             margin: 0;
@@ -36,7 +36,7 @@
 </h1>
 <body onload = "checkAdmin()">
 <div class = "centre borderthin">
-    <form>
+    <form id = "InputOptionChoices">
         <label for = "volume">Music</label><br>
         <input type = "range" id = "volume" name = "volume"><br>
 
@@ -57,7 +57,7 @@
             <option value = "high">High</option>
         </select><br><br>
 
-        <input type = "submit">
+        <button onclick = "addOption()"></button>
         <input type = "reset">
     </form>
 </div>
